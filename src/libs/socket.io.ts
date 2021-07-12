@@ -17,16 +17,16 @@ export function makeConnection(domain: string): string {
 
   const sid = getSid(res.body as string);
 
-  const data = '40';
+  const data = `${socketResponseType.message}${socketResponseCode.connect}`;
   const headers = { 'Content-type': 'text/plain;charset=UTF-8' };
 
-  // `open` event
+  // `message connect` event
   res = http.post(
     `http://${domain}/socket.io/?EIO=4&transport=polling&t=${hashDate()}&sid=${sid}`,
     data,
     { headers: headers }
   );
-  // `connect` event
+  // also seems to be needed...
   res = http.get(
     `http://${domain}/socket.io/?EIO=4&transport=polling&t=${hashDate()}&sid=${sid}`
   );
